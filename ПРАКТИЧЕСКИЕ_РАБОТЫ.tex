@@ -1,0 +1,534 @@
+\documentclass[12pt,a4paper,oneside]{article}
+\usepackage[russian,shorthands=off]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{verbose,a4paper,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\usepackage{fancyhdr}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{makecell}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Вычислительная техника}
+\fancyhead[C]{Практические работы}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\title{\textbf{ПРАКТИЧЕСКИЕ РАБОТЫ ПО КУРСУ\\''ВЫЧИСЛИТЕЛЬНАЯ ТЕХНИКА''}}
+\author{}
+\date{21 января 2026 г.}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ========== ПРАКТИЧЕСКАЯ РАБОТА № 1 ==========
+\section{Практическая работа № 1: Анализ логических выражений и функций}
+
+\subsection{Задание 1: Логическое выражение}
+
+\subsubsection{Условие задачи}
+
+Дано логическое выражение:
+\[
+\overline{a\overline{bc} + \overline{ab}c} + a\overline{\overline{b}}c = y
+\]
+
+\subsubsection{Решение}
+
+Упростим выражение пошагово:
+
+\begin{enumerate}
+    \item Раскроем двойное отрицание: $a\overline{\overline{b}} = ab$
+    
+    \item Исходное выражение примет вид:
+    \[
+    \overline{a\overline{bc} + \overline{ab}c} + abc = y
+    \]
+    
+    \item Применим закон де Моргана к части в скобках:
+    \[
+    \overline{a\overline{bc} + \overline{ab}c} = \overline{a\overline{bc}} \cdot \overline{\overline{ab}c}
+    \]
+    
+    \item Получим:
+    \[
+    = (\overline{a} + b + c) \cdot (a + \overline{b} + \overline{c})
+    \]
+    
+    \item Полное выражение:
+    \[
+    y = (\overline{a} + b + c)(a + \overline{b} + \overline{c}) + abc
+    \]
+\end{enumerate}
+
+\subsection{Задание 2: Анализ функции F}
+
+\subsubsection{Исходная функция}
+
+\[
+F = \overline{\left(\overline{A} \land B\right) \lor \left(B \land C\right)} \lor \left(\overline{A} \land C\right)
+\]
+
+\subsubsection{Пошаговое упрощение}
+
+Обозначим промежуточные функции:
+\begin{align*}
+X &= \overline{A} \land B \\
+Y &= B \land C \\
+Z &= X \lor Y \\
+U &= \overline{Z} \\
+V &= \overline{A} \land C \\
+F &= U \lor V
+\end{align*}
+
+\subsubsection{Таблица истинности функции F}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+$A$ & $B$ & $C$ & $\overline{A}$ & $X$ & $Y$ & $Z$ & $U$ & $V$ & $F$ \\
+\hline
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & \textbf{1} \\
+\hline
+0 & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 1 & \textbf{1} \\
+\hline
+0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 0 & \textbf{0} \\
+\hline
+0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & \textbf{1} \\
+\hline
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & \textbf{1} \\
+\hline
+1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & \textbf{1} \\
+\hline
+1 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & \textbf{1} \\
+\hline
+1 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & \textbf{0} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Минимальная дизъюнктивная нормальная форма (МДНФ)}
+
+Из таблицы видно, что функция F = 1 для наборов:
+\begin{itemize}
+    \item (0,0,0): $\overline{A}\overline{B}\overline{C}$
+    \item (0,0,1): $\overline{A}\overline{B}C$
+    \item (0,1,1): $\overline{A}BC$
+    \item (1,0,0): $A\overline{B}\overline{C}$
+    \item (1,0,1): $A\overline{B}C$
+    \item (1,1,0): $AB\overline{C}$
+\end{itemize}
+
+\[
+F = \overline{A}\overline{B}(\overline{C} + C) + \overline{A}BC + A\overline{B}(C + \overline{C}) + AB\overline{C}
+\]
+
+\[
+F = \overline{A}(\overline{B} + BC) + A(\overline{B} + B\overline{C})
+\]
+
+\[
+F = \overline{A}(\overline{B} + C) + A(\overline{B} + \overline{C})
+\]
+
+% ========== ПРАКТИЧЕСКАЯ РАБОТА № 2 ==========
+\newpage
+\section{Практическая работа № 2: Системы счисления}
+
+\subsection{Перевод чисел в восьмеричную систему счисления}
+
+\subsubsection{Задача 1: Перевод числа $2112{,}77_{10}$ в восьмеричную систему}
+
+\paragraph{Шаг 1: Перевод целой части (деление на 8)}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Делимое} & \textbf{÷ 8} & \textbf{Частное} & \textbf{Остаток} \\
+\hline
+2112 & & 264 & \textbf{0} \\
+\hline
+264 & & 33 & \textbf{0} \\
+\hline
+33 & & 4 & \textbf{1} \\
+\hline
+4 & & 0 & \textbf{4} \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Результат целой части:} остатки снизу вверх = $4100_8$
+
+\paragraph{Шаг 2: Перевод дробной части (умножение на 8)}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Дробь $\times$ 8} & \textbf{Целая часть} & \textbf{Новая дробь} & \textbf{Цифра} \\
+\hline
+$0{,}77 \times 8 = 6{,}16$ & 6 & 0,16 & \textbf{6} \\
+\hline
+$0{,}16 \times 8 = 1{,}28$ & 1 & 0,28 & \textbf{1} \\
+\hline
+$0{,}28 \times 8 = 2{,}24$ & 2 & 0,24 & \textbf{2} \\
+\hline
+$0{,}24 \times 8 = 1{,}92$ & 1 & 0,92 & \textbf{1} \\
+\hline
+$0{,}92 \times 8 = 7{,}36$ & 7 & 0,36 & \textbf{7} \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Результат дробной части:} $0{,}61217_8$ (первые 5 цифр)
+
+\paragraph{Ответ:}
+\[
+2112{,}77_{10} = 4100{,}61217_8
+\]
+
+\subsubsection{Задача 2: Перевод числа $6422{,}64_{10}$ в восьмеричную систему}
+
+\paragraph{Шаг 1: Перевод целой части (деление на 8)}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Делимое} & \textbf{÷ 8} & \textbf{Частное} & \textbf{Остаток} \\
+\hline
+6422 & & 802 & \textbf{6} \\
+\hline
+802 & & 100 & \textbf{2} \\
+\hline
+100 & & 12 & \textbf{4} \\
+\hline
+12 & & 1 & \textbf{4} \\
+\hline
+1 & & 0 & \textbf{1} \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Результат целой части:} остатки снизу вверх = $14426_8$
+
+\paragraph{Шаг 2: Перевод дробной части (умножение на 8)}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Дробь $\times$ 8} & \textbf{Целая часть} & \textbf{Новая дробь} & \textbf{Цифра} \\
+\hline
+$0{,}64 \times 8 = 5{,}12$ & 5 & 0,12 & \textbf{5} \\
+\hline
+$0{,}12 \times 8 = 0{,}96$ & 0 & 0,96 & \textbf{0} \\
+\hline
+$0{,}96 \times 8 = 7{,}68$ & 7 & 0,68 & \textbf{7} \\
+\hline
+$0{,}68 \times 8 = 5{,}44$ & 5 & 0,44 & \textbf{5} \\
+\hline
+$0{,}44 \times 8 = 3{,}52$ & 3 & 0,52 & \textbf{3} \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Результат дробной части:} $0{,}50753_8$
+
+\paragraph{Ответ:}
+\[
+6422{,}64_{10} = 14426{,}50753_8
+\]
+
+% ========== ПРАКТИЧЕСКАЯ РАБОТА № 3 ==========
+\newpage
+\section{Практическая работа № 3: Цифровые логические схемы}
+
+\subsection{Логические вентили}
+
+\subsubsection{Вентиль И (AND)}
+
+\textbf{Функция:} $Y = A \land B$
+
+\textbf{Таблица истинности:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$A$ & $B$ & $Y$ \\
+\hline
+0 & 0 & 0 \\
+\hline
+0 & 1 & 0 \\
+\hline
+1 & 0 & 0 \\
+\hline
+1 & 1 & 1 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Вентиль ИЛИ (OR)}
+
+\textbf{Функция:} $Y = A \lor B$
+
+\textbf{Таблица истинности:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$A$ & $B$ & $Y$ \\
+\hline
+0 & 0 & 0 \\
+\hline
+0 & 1 & 1 \\
+\hline
+1 & 0 & 1 \\
+\hline
+1 & 1 & 1 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Вентиль НЕ (NOT)}
+
+\textbf{Функция:} $Y = \overline{A}$
+
+\textbf{Таблица истинности:}
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+$A$ & $Y$ \\
+\hline
+0 & 1 \\
+\hline
+1 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Вентиль ИСКЛЮЧАЮЩЕЕ ИЛИ (XOR)}
+
+\textbf{Функция:} $Y = A \oplus B = A\overline{B} + \overline{A}B$
+
+\textbf{Таблица истинности:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$A$ & $B$ & $Y$ \\
+\hline
+0 & 0 & 0 \\
+\hline
+0 & 1 & 1 \\
+\hline
+1 & 0 & 1 \\
+\hline
+1 & 1 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Триггеры}
+
+\subsubsection{RS-триггер (Reset-Set)}
+
+\textbf{Описание:} Базовый триггер с двумя входами (Set и Reset) и двумя выходами (Q и $\overline{Q}$).
+
+\textbf{Таблица переходов:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+$S$ & $R$ & $Q_{t+1}$ & \textbf{Состояние} \\
+\hline
+0 & 0 & $Q_t$ & Сохранение \\
+\hline
+0 & 1 & 0 & Сброс \\
+\hline
+1 & 0 & 1 & Установка \\
+\hline
+1 & 1 & ? & Запрещено \\
+\hline
+\end{tabular}
+\end{center}
+
+% ========== ПРАКТИЧЕСКАЯ РАБОТА № 4 ==========
+\newpage
+\section{Практическая работа № 4: Сумматоры и арифметические схемы}
+
+\subsection{Полусумматор (Half Adder)}
+
+\textbf{Функция:} Суммирует два одноразрядных двоичных числа без учета переноса на вход.
+
+\textbf{Таблица истинности:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+$A$ & $B$ & $S$ (Sum) & $C$ (Carry) \\
+\hline
+0 & 0 & 0 & 0 \\
+\hline
+0 & 1 & 1 & 0 \\
+\hline
+1 & 0 & 1 & 0 \\
+\hline
+1 & 1 & 0 & 1 \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Логические выражения:}
+\begin{align*}
+S &= A \oplus B \quad \text{(сумма)} \\
+C &= A \land B \quad \text{(перенос)}
+\end{align*}
+
+\subsection{Полный сумматор (Full Adder)}
+
+\textbf{Функция:} Суммирует два одноразрядных двоичных числа с учетом переноса на вход.
+
+\textbf{Таблица истинности:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$C_{in}$ & $A$ & $B$ & $S$ (Sum) & $C_{out}$ (Carry) \\
+\hline
+0 & 0 & 0 & 0 & 0 \\
+\hline
+0 & 0 & 1 & 1 & 0 \\
+\hline
+0 & 1 & 0 & 1 & 0 \\
+\hline
+0 & 1 & 1 & 0 & 1 \\
+\hline
+1 & 0 & 0 & 1 & 0 \\
+\hline
+1 & 0 & 1 & 0 & 1 \\
+\hline
+1 & 1 & 0 & 0 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 1 \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Логические выражения:}
+\begin{align*}
+S &= (A \oplus B) \oplus C_{in} \quad \text{(сумма)} \\
+C_{out} &= AB + (A \oplus B)C_{in} \quad \text{(перенос)}
+\end{align*}
+
+% ========== ПРАКТИЧЕСКАЯ РАБОТА № 5 ==========
+\newpage
+\section{Практическая работа № 5: Встроенные цифровые схемы}
+
+\subsection{Дешифратор (Decoder)}
+
+\textbf{Назначение:} Преобразует n-битный код на входе в один активный выход из $2^n$ возможных выходов.
+
+\textbf{2-в-4 дешифратор:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$A_1$ & $A_0$ & $Y_0$ & $Y_1$ & $Y_2$ & $Y_3$ \\
+\hline
+0 & 0 & 1 & 0 & 0 & 0 \\
+\hline
+0 & 1 & 0 & 1 & 0 & 0 \\
+\hline
+1 & 0 & 0 & 0 & 1 & 0 \\
+\hline
+1 & 1 & 0 & 0 & 0 & 1 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Мультиплексор (Multiplexer)}
+
+\textbf{Назначение:} Выбирает один из нескольких входов на основе адреса выбора и направляет его на выход.
+
+\textbf{4-в-1 мультиплексор:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$S_1$ & $S_0$ & $Y$ \\
+\hline
+0 & 0 & $I_0$ \\
+\hline
+0 & 1 & $I_1$ \\
+\hline
+1 & 0 & $I_2$ \\
+\hline
+1 & 1 & $I_3$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Логическое выражение:}
+\[
+Y = \overline{S_1}\overline{S_0}I_0 + \overline{S_1}S_0I_1 + S_1\overline{S_0}I_2 + S_1S_0I_3
+\]
+
+\subsection{Компаратор (Comparator)}
+
+\textbf{Назначение:} Сравнивает два входных слова и выдает результат сравнения (A>B, A=B, A<B).
+
+\textbf{1-битный компаратор:}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$A$ & $B$ & $A>B$ & $A=B$ & $A<B$ \\
+\hline
+0 & 0 & 0 & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 1 \\
+\hline
+1 & 0 & 1 & 0 & 0 \\
+\hline
+1 & 1 & 0 & 1 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+% ========== РЕЗЮМЕ ==========
+\newpage
+\section{Резюме}
+
+Данный документ содержит полное описание основных практических работ по курсу ``Вычислительная техника'':
+
+\begin{description}
+    \item[Практическая работа № 1] посвящена анализу логических выражений и булевых функций с применением законов де Моргана и построением таблиц истинности.
+    
+    \item[Практическая работа № 2] охватывает перевод чисел между позиционными системами счисления (десятичная, восьмеричная) для целых и дробных частей.
+    
+    \item[Практическая работа № 3] описывает базовые логические вентили (И, ИЛИ, НЕ, XOR), триггеры (RS-триггер) и их применение в цифровых схемах.
+    
+    \item[Практическая работа № 4] содержит информацию о сумматорах (полусумматор и полный сумматор) и их использовании в арифметических схемах.
+    
+    \item[Практическая работа № 5] посвящена встроенным цифровым схемам: дешифраторам, мультиплексорам и компаратором.
+\end{description}
+
+\vspace{2cm}
+
+\begin{center}
+    \rule{6cm}{1pt} \\
+    \textit{Документ составлен:} 21 января 2026 г. \\
+    \textit{Предмет:} Вычислительная техника \\
+    \textit{Курс:} Основы цифровых схем и логики
+\end{center}
+
+\end{document}
